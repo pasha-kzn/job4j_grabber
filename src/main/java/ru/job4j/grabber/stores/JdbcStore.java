@@ -65,7 +65,7 @@ public class JdbcStore implements Store {
         } catch (SQLException e) {
             throw new RuntimeException(format("Не удалось удалить запись c id = %s", id), e);
         }
-        return Optional.empty();
+        return Optional.ofNullable(post);
     }
 
     private static Post getNewPost(ResultSet resultSet) throws SQLException {

@@ -19,8 +19,7 @@ public class Main {
         try (var connection = DriverManager.getConnection(
                 config.get("url"),
                 config.get("username"),
-                config.get("password")
-        );
+                config.get("password"));
         var scheduler = new SchedulerManager()) {
             var store = new JdbcStore(connection);
             var post = new Post();
