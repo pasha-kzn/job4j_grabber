@@ -6,6 +6,19 @@ public class Post {
     private Long id;
     private String title;
     private String link;
+    private String description;
+    private Long time;
+
+    public Post(Long id, String title, String description, String link, Long time) {
+        this.id = id;
+        this.title = title;
+        this.link = link;
+        this.description = description;
+        this.time = time;
+    }
+
+    public Post() {
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -19,9 +32,6 @@ public class Post {
     public int hashCode() {
         return Objects.hashCode(link);
     }
-
-    private String description;
-    private Long time;
 
     public Long getId() {
         return id;
