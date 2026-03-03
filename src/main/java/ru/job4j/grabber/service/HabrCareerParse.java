@@ -3,9 +3,11 @@ package ru.job4j.grabber.service;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import ru.job4j.grabber.model.Post;
+import ru.job4j.grabber.utils.DateTimeParser;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,12 @@ public class HabrCareerParse implements Parse {
     private static final String PREFIX = "/vacancies?page=";
     private static final String SUFFIX = "&q=Java%20developer&type=all";
     private static final int PAGE_COUNT = 5;
+
+    private final DateTimeParser dateTimeParser;
+
+    public HabrCareerParse(DateTimeParser dateTimeParser) {
+        this.dateTimeParser = dateTimeParser;
+    }
 
     @Override
     public List<Post> fetch() {
@@ -37,7 +45,7 @@ public class HabrCareerParse implements Parse {
                     var post = new Post();
                     post.setTitle(vacancyName);
                     post.setLink(link);
-                    post.setTime(Instant.parse(date).toEpochMilli());
+                    post.setTime(dateTimeParser.parse(date).toEpochSecond(ZoneOffset.UTC));
                     post.setDescription(retrieveDescription(link));
                     result.add(post);
                 });
@@ -58,10 +66,5 @@ public class HabrCareerParse implements Parse {
             log.error("When load description", e);
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        var v = new HabrCareerParse().fetch();
-        System.out.println("Прив");
     }
 }
