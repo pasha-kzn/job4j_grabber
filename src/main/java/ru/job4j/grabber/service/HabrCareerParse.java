@@ -3,6 +3,7 @@ package ru.job4j.grabber.service;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import ru.job4j.grabber.model.Post;
+
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class HabrCareerParse implements Parse {
                     post.setTitle(vacancyName);
                     post.setLink(link);
                     post.setTime(Instant.parse(date).toEpochMilli());
+                    post.setDescription(retrieveDescription(link));
                     result.add(post);
                 });
             } catch (IOException e) {
@@ -45,6 +47,17 @@ public class HabrCareerParse implements Parse {
             pageNumber++;
         }
         return result;
+    }
+
+    private String retrieveDescription(String link) {
+        try {
+            var connection = Jsoup.connect(link);
+            var document = connection.get();
+            return document.select(".vacancy-description__text").text();
+        } catch (IOException e) {
+            log.error("When load description", e);
+        }
+        return null;
     }
 
     public static void main(String[] args) {
