@@ -6,11 +6,8 @@ import ru.job4j.grabber.service.SchedulerManager;
 import ru.job4j.grabber.service.SuperJobGrab;
 import ru.job4j.grabber.stores.JdbcStore;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
-import ru.job4j.grabber.stores.MemStore;
-
-import static ru.job4j.grabber.service.Config.log;
+import static ru.job4j.grabber.service.Config.LOG;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,7 +29,7 @@ public class Main {
                     store);
             Thread.sleep(10000);
         } catch (Exception e) {
-            log.error("When create a connection", e);
+            LOG.error("When create a connection", e);
         }
     }
 }

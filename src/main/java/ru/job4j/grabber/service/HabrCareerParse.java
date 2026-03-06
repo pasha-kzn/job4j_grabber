@@ -6,13 +6,12 @@ import ru.job4j.grabber.model.Post;
 import ru.job4j.grabber.utils.DateTimeParser;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HabrCareerParse implements Parse {
-    private static final Logger log = Logger.getLogger(HabrCareerParse.class);
+    private static final Logger LOG = Logger.getLogger(HabrCareerParse.class);
     private static final String SOURCE_LINK = "https://career.habr.com";
     private static final String PREFIX = "/vacancies?page=";
     private static final String SUFFIX = "&q=Java%20developer&type=all";
@@ -50,7 +49,7 @@ public class HabrCareerParse implements Parse {
                     result.add(post);
                 });
             } catch (IOException e) {
-                log.error("When load page", e);
+                LOG.error("When load page", e);
             }
             pageNumber++;
         }
@@ -63,7 +62,7 @@ public class HabrCareerParse implements Parse {
             var document = connection.get();
             return document.select(".vacancy-description__text").text();
         } catch (IOException e) {
-            log.error("When load description", e);
+            LOG.error("When load description", e);
         }
         return null;
     }
