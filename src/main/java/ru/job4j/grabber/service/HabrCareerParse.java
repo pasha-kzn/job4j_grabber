@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import ru.job4j.grabber.model.Post;
 import ru.job4j.grabber.utils.DateTimeParser;
+import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
 import java.io.IOException;
 import java.time.ZoneOffset;
@@ -57,13 +58,14 @@ public class HabrCareerParse implements Parse {
     }
 
     private String retrieveDescription(String link) {
+        String result = null;
         try {
             var connection = Jsoup.connect(link);
             var document = connection.get();
-            return document.select(".vacancy-description__text").text();
+            result = document.select(".vacancy-description__text").text();
         } catch (IOException e) {
             LOG.error("When load description", e);
         }
-        return null;
+        return result;
     }
 }
